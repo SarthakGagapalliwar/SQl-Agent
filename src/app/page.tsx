@@ -57,7 +57,7 @@ export default function Chat() {
                   Sales Analytics
                 </p>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  "Show me top selling products"
+                  &quot;Show me top selling products&quot;
                 </p>
               </div>
               <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -66,7 +66,7 @@ export default function Chat() {
                   Inventory
                 </p>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  "Which products are low in stock?"
+                  &quot;Which products are low in stock?&quot;
                 </p>
               </div>
               <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -75,7 +75,7 @@ export default function Chat() {
                   Regional Data
                 </p>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  "Sales by region last month"
+                  &quot;Sales by region last month&quot;
                 </p>
               </div>
             </div>
@@ -92,7 +92,7 @@ export default function Chat() {
               <div className="flex items-center mb-3">
                 {message.role === "user" ? (
                   <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">�</span>
+                    <span className="text-white text-sm">👤</span>
                   </div>
                 ) : (
                   <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-3">
