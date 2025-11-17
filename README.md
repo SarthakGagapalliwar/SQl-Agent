@@ -47,6 +47,36 @@ DATABASE_URL="postgresql://username:password@host:port/database?sslmode=require"
 
 ### Getting Started
 
+#### Option 1: Docker (Recommended) 🐳
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/sql-agent.git
+cd sql-agent
+```
+
+2. Copy and configure environment:
+
+```bash
+cp .env.docker .env
+# Edit .env and add your MISTRAL_API_KEY
+```
+
+3. Start with Docker Compose:
+
+```bash
+docker compose up -d
+docker compose exec app npx drizzle-kit migrate
+docker compose exec app npx tsx src/app/db/db.seed.ts
+```
+
+4. Open [http://localhost:3000](http://localhost:3000)
+
+**📖 See [DOCKER.md](DOCKER.md) for complete Docker documentation**
+
+#### Option 2: Local Development
+
 1. Clone the repository:
 
 ```bash
@@ -74,8 +104,6 @@ pnpm dlx tsx src/app/db/db.seed.ts
 ```
 
 5. Start the development server:
-
-6. Start the development server:
 
 ```bash
 pnpm dev

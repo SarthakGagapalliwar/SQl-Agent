@@ -1,0 +1,88 @@
+name: CI - Test and Lint
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm run lint
+        continue-on-error: true
+
+      - name: Check TypeScript types
+        run: npx tsc --noEmit
+
+      - name: Build application
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@placeholder:5432/placeholder
+        run: pnpm build
+
+  docker-test-build:
+    runs-on: ubuntu-latest
+    needs: test-and-lint
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Test Docker build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: sql-agent:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test Docker image
+        run: |
+          docker run -d --name test-container \
+            -e DATABASE_URL=postgresql://test:test@localhost:5432/test \
+            -e MISTRAL_API_KEY=test_key \
+            sql-agent:test
+
+          # Wait for container to start
+          sleep 5
+
+          # Check if container is still running
+          docker ps | grep test-container
+
+          # Clean up
+          docker stop test-container
+          docker rm test-container
