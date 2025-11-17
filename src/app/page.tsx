@@ -25,7 +25,7 @@ export default function Chat() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-                SQL Agent works
+                SQL Agent 
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 Ask questions about your PostgreSQL database
